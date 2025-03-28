@@ -24,7 +24,7 @@ const Dashboard = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:5000/api/trips/generate-suggestion', tripDetails);
+      const response = await axios.post('https://adventure-1-7gs5.onrender.com', tripDetails);
       setSuggestion(response.data.data);
     } catch (error) {
       console.error('Trip generation error:', error);
