@@ -23,6 +23,10 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch((err) => console.error('MongoDB Connection Error:', err));
 
 // Start server
+console.log("PORT:", process.env.PORT);
+console.log("GEMINI_API_KEY:", process.env.GEMINI_API_KEY ? "✅ Exists" : "❌ Missing");
+console.log("MONGODB_URI:", process.env.MONGODB_URI ? "✅ Exists" : "❌ Missing");
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
