@@ -92,7 +92,9 @@ const Blog = () => {
   const featuredPost = blogPosts.find(post => post.featured);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-20 relative bg-gradient-to-b from-gray-50 to-white">
+      
+      
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Page Header */}
         <div className="text-center mb-16">
@@ -157,7 +159,7 @@ const Blog = () => {
         </div>
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-white">
           {filteredPosts.map(post => (
             <article key={post.id} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
               <div className="relative overflow-hidden h-48">

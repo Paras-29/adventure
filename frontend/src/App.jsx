@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import Team from "./pages/Team";
+import Dashboard from "./pages/Dashboard";
 
 
 
@@ -26,8 +27,7 @@ function App() {
           </>
         } />
         <Route path="/about" element={<About/>} />
-        
-        
+        <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/pricing" element={<Pricing/>} />
         <Route path="/team" element={<Team/>} />
         <Route path="/blog" element={<Blog/>} />

@@ -79,13 +79,13 @@ const Testimonials = () => {
     <section className="py-24 relative overflow-hidden">
       {/* Background with subtle texture and gradient */}
       <div className="absolute inset-0 bg-black z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black opacity-90"></div>
-        <div className="absolute inset-0 bg-[url('/images/texture.png')] bg-repeat opacity-5"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-80"></div>
+        <div className="absolute inset-0 bg-[url('/images/pattern-bg.png')] bg-repeat opacity-5"></div>
       </div>
       
       {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 rounded-full blur-[100px]"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-500/5 rounded-full blur-[100px]"></div>
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-500/10 rounded-full blur-[100px]"></div>
+      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-red-600/10 rounded-full blur-[100px]"></div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div 
