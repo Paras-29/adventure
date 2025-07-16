@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { Calendar, Map, PlaneLanding, Users, DollarSign, Thermometer, Compass } from "lucide-react";
 import axios from 'axios'
+import ReactMarkdown from 'react-markdown';
 
 const Dashboard = () => {
   const [tripDetails, setTripDetails] = useState({
@@ -15,6 +16,7 @@ const Dashboard = () => {
   });
   const [suggestion, setSuggestion] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [images, setImages] = useState([]);
 
   const handleChange = (e) => {
     setTripDetails({ ...tripDetails, [e.target.name]: e.target.value });
@@ -24,7 +26,7 @@ const Dashboard = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post('https://adventure-1-7gs5.onrender.com', tripDetails);
+      const response = await axios.post('http://localhost:5000/api/trips/generate-suggestion', tripDetails);
       setSuggestion(response.data.data);
     } catch (error) {
       console.error('Trip generation error:', error);
@@ -33,6 +35,26 @@ const Dashboard = () => {
       setIsLoading(false);
     }
   };
+  useEffect(() => {
+    async function fetchImages() {
+      setImages([]);
+      if (tripDetails.location && suggestion) {
+        try {
+          // TODO: Replace 'YOUR_UNSPLASH_ACCESS_KEY' with your actual Unsplash Access Key
+          const res = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(tripDetails.location)}&per_page=3&client_id=wMA98vbKXbaWksQKt0GNlqBhCJxLssED8BYYlm6CiA0`);
+          const data = await res.json();
+          if (data.results && data.results.length > 0) {
+            setImages(data.results.map(img => img.urls.small));
+          }
+        } catch (e) {
+          setImages([]);
+        }
+      }
+    }
+    fetchImages();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [suggestion]);
+
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-black">
@@ -48,7 +70,7 @@ const Dashboard = () => {
       
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center p-6 w-full">
-        <div className="w-full max-w-6xl mx-auto">
+        <div className="w-full max-w-full mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-5xl font-bold mb-2 text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">AI Trip Planner</h1>
@@ -56,9 +78,8 @@ const Dashboard = () => {
               Discover your perfect destination with our AI-powered trip recommendations
             </p>
           </div>
-          
-          {/* Main content */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main content: Form and Result stacked vertically */}
+          <div className="flex flex-col gap-8 w-full">
             {/* Form */}
             <div className="lg:col-span-2 bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-gray-800">
               <div className="p-6">
@@ -67,7 +88,7 @@ const Dashboard = () => {
                   Trip Preferences
                 </h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Total Persons */}
                   <div>
                     <label className="block text-gray-300 font-medium mb-1 text-sm flex items-center">
@@ -226,20 +247,37 @@ const Dashboard = () => {
               </div>
             </div>
             
-            {/* Results Panel */}
-            <div className="bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-xl shadow-xl border border-gray-800 flex flex-col w-[450px]">
+            {/* Results Panel below the form */}
+            <div className="bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-xl shadow-xl border border-gray-800 flex flex-col w-full">
               <div className="p-6 flex-1 overflow-auto max-h-[600px]">
                 <h2 className="text-xl font-semibold text-white mb-4">Trip Recommendation</h2>
-                
                 {suggestion ? (
                   <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
                     <h3 className="text-lg font-medium text-red-400 mb-2">Your Perfect Trip</h3>
-                    <p className="text-gray-300 leading-relaxed">{suggestion}</p>
-                    
-                    {/* Image placeholder */}
-                    <div className="mt-4 rounded-lg overflow-hidden">
-                      <img src="/api/placeholder/400/200" alt="Destination preview" className="w-full h-auto" />
+                    {/* Render the AI suggestion as Markdown for proper formatting and custom styles */}
+                    <div className="text-gray-300">
+                      <ReactMarkdown
+                        components={{
+                          h1: ({node, ...props}) => <h1 className="text-4xl font-bold mt-6 mb-4 text-white" {...props} />,
+                          h2: ({node, ...props}) => <h2 className="text-3xl font-bold mt-5 mb-3 text-blue-300" {...props} />,
+                          h3: ({node, ...props}) => <h3 className="text-2xl font-bold mt-4 mb-2 text-blue-200" {...props} />,
+                          p: ({node, ...props}) => <p className="mb-6" {...props} />,
+                          li: ({node, ...props}) => <li className="ml-6 list-disc" {...props} />,
+                        }}
+                      >
+                        {suggestion}
+                      </ReactMarkdown>
                     </div>
+                    {/* Image placeholder */}
+                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {images.length > 0 ? (
+        images.map((url, idx) => (
+          <img key={idx} src={url} alt="Destination" className="w-full h-48 object-cover rounded-lg" />
+        ))
+      ) : (
+        <img src="/api/placeholder/400/200" alt="Destination preview" className="w-full h-48 object-cover rounded-lg" />
+      )}
+    </div>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full text-center p-6">

@@ -14,81 +14,38 @@ this.genAI = new GoogleGenerativeAI(apiKey);
   async generateTripSuggestion(tripDetails) {
     const model = this.genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-    const prompt = `Comprehensive AI Trip Planner Prompt
-Traveler Profile and Trip Parameters
+    // ... existing code ...
+    const prompt = `You are an AI Trip Planner. Please provide the trip plan in the following Markdown format with clear section headings:
 
-Number of Travelers: ${tripDetails.totalPersons}
-Traveler Type: ${tripDetails.travelerType}
-Budget Range: ${tripDetails.budget}
-Desired Destination: ${tripDetails.location}
-Weather Preference: ${tripDetails.weather}
-Preferred Travel Mode: ${tripDetails.travelMode}
-Travel Dates: ${tripDetails.startDate} to ${tripDetails.endDate}
+# Destination Overview
+- Brief introduction to the destination and why it suits the traveler type.
 
-\`\`\`
-Detailed Recommendation Guidelines:
-1. Destination Overview
+# Accommodation Options
+- Recommend a range of accommodations matching the budget and traveler type.
 
-Provide a captivating introduction to the destination
-Highlight unique cultural, geographical, and experiential aspects
-Explain why this location is perfect for the specific traveler type
-\`\`\`
-\`\`\`
-2. Tailored Accommodation Options
+# Activities and Experiences
+- Curate a diverse itinerary with activities for all group members, including both paid and free experiences.
 
-Recommend a range of accommodations matching the budget
-Include options for different traveler types (family-friendly, couple's retreat, solo traveler hostels)
-Provide insights on location, amenities, and approximate costs
-Suggest best areas to stay based on traveler's interests
-\`\`\`
-\`\`\`
-3. Curated Activity and Experience Suggestions
+# Budget Breakdown
+- Provide a detailed breakdown of estimated total trip costs and money-saving tips.
 
-Create a diverse itinerary with activities for all group members
-Balance between relaxation, adventure, cultural experiences, and local interactions
-Consider the traveler type and group dynamics
-Provide time estimates and difficulty levels for activities
-Include both paid and free experiences
-\`\`\`
-\`\`\`
-4. Budget-Conscious Travel Strategies
+# Travel Logistics
+- Transportation recommendations, best travel routes, visa requirements, local customs, and packing suggestions.
 
-Detailed breakdown of estimated total trip costs
-Money-saving tips specific to the destination
-Recommendations for affordable dining, transportation, and activities
-Suggestions for maximizing value within the specified budget range
-\`\`\`
-\`\`\`
-5. Practical Travel Logistics
+# Safety and Preparedness
+- Health and safety recommendations, weather precautions, emergency contacts, and local healthcare resources.
 
-Transportation recommendations (local transit, car rentals, guided tours)
-Best travel routes and connections
-Visa and entry requirements
-Local customs and etiquette tips
-Essential packing suggestions based on destination and travel dates
-\`\`\`
-\`\`\`
-6. Safety and Preparedness
+Traveler Profile and Trip Parameters:
+- Number of Travelers: ${tripDetails.totalPersons}
+- Traveler Type: ${tripDetails.travelerType}
+- Budget Range: ${tripDetails.budget}
+- Desired Destination: ${tripDetails.location}
+- Weather Preference: ${tripDetails.weather}
+- Preferred Travel Mode: ${tripDetails.travelMode}
+- Travel Dates: ${tripDetails.startDate} to ${tripDetails.endDate}
 
-Health and safety recommendations
-Weather-related precautions
-Emergency contact information
-Local healthcare and support resources
-\`\`\`
-\`\`\`
-Additional Considerations:
-
-Ensure recommendations are personalized and specific
-Provide actionable, realistic, and exciting suggestions
-Maintain a balance between structured planning and spontaneous exploration
-Adapt recommendations to the specific weather and travel mode preferences
-\`\`\`
-\`\`\`
-Final Tone and Style:
-
-Enthusiastic and inspiring
-Conversational yet informative
-Encouraging of unique, memorable travel experiences`;
+Please ensure each section is clearly separated with a heading and the content is concise, actionable, and easy to read.`;
+// ... existing code ...
 
     try {
         const result = await model.generateContent([prompt]);
