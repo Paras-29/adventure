@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const testimonials = [
   { 
@@ -215,7 +216,7 @@ const Testimonials = () => {
           className="mt-16 text-center"
         >
           <a href="#" className="inline-flex items-center px-6 py-3 rounded-full border border-red-500 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300">
-            <span>Read More Reviews</span>
+            <Link to="/blog"><span>Read blog</span></Link>
             <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
             </svg>
